@@ -9,6 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f81336c4028f143468b84ee49ee9561c, type: 3}
-  m_Name: WaterStormMode
+  m_Script: {fileID: 11500000, guid: 22790b5f12aa0fd49a32c0c72484e823, type: 3}
+  m_Name: Words Selection Mode
   m_EditorClassIdentifier: 
+  _wm: {fileID: 0}

@@ -44,7 +44,7 @@ public class TouchInput : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,
         if (hit.collider != null)
         {
             PuzzlePiece pp = hit.transform.GetComponent<PuzzlePiece>();
-            Assert.IsFalse(pp != null);
+           // Assert.IsFalse(pp != null, "No puzzle piece selected!");
             onPieceSelected?.Invoke(pp);
         }
     }

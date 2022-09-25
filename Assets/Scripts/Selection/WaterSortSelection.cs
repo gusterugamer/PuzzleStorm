@@ -10,8 +10,6 @@ namespace GusteruStudio.Selection
     public class WaterSortSelection : SelectionMode
     {
         private Bottle _firstSelected = null;
-
-        [Button]
         public override void Set()
         {
             SelectionManager.SetMode(this);
