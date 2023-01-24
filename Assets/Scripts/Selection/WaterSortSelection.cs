@@ -3,6 +3,7 @@ using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 namespace GusteruStudio.Selection
 {
@@ -18,7 +19,7 @@ namespace GusteruStudio.Selection
         public override void Enter()
         {
             TouchInput.onPieceSelected += ProcessSelection;
-            CleanSelected();
+            ClearSelection();
         }
 
         public override void Exit()
@@ -30,30 +31,39 @@ namespace GusteruStudio.Selection
         {
             Bottle bottle = pp as Bottle;
 
+            Assert.IsNotNull(bottle, "THE SELECTED PIECES IS NOT A <<BOTTLE>> !");
+
+            if (bottle.colors.Count == 0)
+            {
+                Debug.Log("BOTTLE: " + bottle.name + "IS EMPTY AND CANNOT BE SELECTED!");
+                return;
+            }
+
+            //Records the first selected bottle
             if (_firstSelected == null)
             {
+                Debug.Log("Bottle selected: " + bottle.name);
                 _firstSelected = bottle;
                 return;
             }
 
+            //Deselects the selected bottle if it's clicked a second time
             if (_firstSelected == bottle)
             {
+                Debug.Log("Bottle DEselected: " + bottle.name);
                 _firstSelected = null;
                 return;
             }
 
+            //If there is a selected bottle recorded and another bottle selected try to fill the second bottle
             if (_firstSelected != null)
             {
-                int num_first_selected_colors = _firstSelected.colors.Length;
-                //first color in the bottle is last color in the array
-                Color firstColor = _firstSelected.colors[num_first_selected_colors - 1];
-                bottle.Fill(firstColor);
-                _firstSelected.Spill();
-                CleanSelected();
+                bottle.Fill(_firstSelected);
+                ClearSelection();
             }
         }
 
-        private void CleanSelected()
+        private void ClearSelection()
         {
             _firstSelected = null;
         }

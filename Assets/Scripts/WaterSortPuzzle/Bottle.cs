@@ -6,32 +6,76 @@ using UnityEngine;
 
 public sealed class Bottle : MonoBehaviour, PuzzlePiece
 {
-    [BoxGroup("Config")]
-    [SerializeField]
-    private uint _maxNumColors = 0;
+    [SerializeField] private List<Color> _colors;
 
-    private uint _curNumColors = 0;
+    public List<Color> colors => _colors;
 
-    [SerializeField] private Color[] _colors;
-
-    public Color[] colors => _colors;
+    private int _maxColors = 0;
 
     private void Awake()
     {
-       // _colors = new Color[_maxNumColors];
-        _curNumColors = 0;
+        WaterSortPuzzle.onPuzzleLoaded += InitializeColors;
     }
 
-    public void Fill(Color color)
+    private void OnDestroy()
     {
-        //if (_curNumColors == _maxNumColors)
-        //    return;
-
-        _colors[0] = color;
+        WaterSortPuzzle.onPuzzleLoaded -= InitializeColors;
     }
 
-    public void Spill()
+    private void InitializeColors(List<List<List<string>>> levels)
     {
-        _colors[_colors.Length - 1] = new Color(0f,0f,0f,1f);
+        _maxColors = levels[2][0].Count;
+        _colors = new List<Color>(_maxColors);
+        for (int i = 0; i < _colors.Capacity; i++)
+        {
+            string color = levels[2][0][i];
+            if (color == "Red")
+                _colors.Add(Color.red);
+            if (color == "Blue")
+                _colors.Add(Color.blue);
+            if (color == "Green")
+                _colors.Add(Color.green);
+            if (color == "Yellow")
+                _colors.Add(Color.yellow);
+            if (color == "Purple")
+                _colors.Add(Color.cyan);
+            if (color == "Orange")
+                _colors.Add(new Color(37, 150, 120));
+            if (color == "Pink")
+                _colors.Add(Color.magenta);
+            if (color == "Gray")
+                _colors.Add(Color.gray);
+            if (color == "White")
+                _colors.Add(Color.white);
+        }
+    }
+
+    public void Fill(Bottle bottleFiller)
+    {
+        //Check if there is enough space
+        if (_colors.Count >= _maxColors)
+        {
+            Debug.Log("CANNOT FILL BOTTLE: " + name + " BECAUSE IS FULL!");
+            return;
+        }
+
+        Color colorFiller = bottleFiller.colors[0];
+
+        //Check to see if the bottle is empty or it has the first color from TOP to BOTTOM the same as fillColor
+        if (_colors.Count == 0 || colorFiller == _colors[0])
+        {
+            Debug.Log("BOTTLE: " + name + " WAS FILLED BY BOTTLE " + bottleFiller.name + " WITH COLOR: " + colorFiller.ToString());
+            bottleFiller.Spill();
+            _colors.Insert(0,colorFiller);
+        }
+    }
+
+    private void Spill()
+    {
+        if (_colors.Count > 0)
+        {
+            _colors.RemoveAt(0);
+            Debug.Log(name + " WAS SPILLED");
+        }
     }
 }

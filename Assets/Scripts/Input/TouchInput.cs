@@ -27,7 +27,7 @@ public class TouchInput : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,
     public void OnPointerUp(PointerEventData eventData)
     {
         onPointerUp?.Invoke(eventData);
-        ProcessTouch(eventData);
+       // ProcessTouch(eventData);
     }
 
     public void OnDrag(PointerEventData eventData)
