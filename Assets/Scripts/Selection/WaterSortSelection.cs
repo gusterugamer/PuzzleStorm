@@ -58,7 +58,7 @@ namespace GusteruStudio.Selection
             //If there is a selected bottle recorded and another bottle selected try to fill the second bottle
             if (_firstSelected != null)
             {
-                bottle.Fill(_firstSelected);
+                //bottle.Fill(_firstSelected);
                 ClearSelection();
             }
         }
