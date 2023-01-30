@@ -7,6 +7,9 @@ using UnityEngine.Assertions;
 
 public sealed class Bottle : MonoBehaviour, PuzzlePiece
 {
+
+    public const int _MAX_NUMBER_OF_COLORS = 4;
+
     [Range(0f, 1f)]
     public float _fillAmount;
 
@@ -20,32 +23,17 @@ public sealed class Bottle : MonoBehaviour, PuzzlePiece
 
     private void Awake()
     {
+        //All bottles require colors
         _waterColors = GetComponentInChildren<WaterColors>();
         Assert.IsNull(_waterColors, "BOTTLE: " + name + " doesn't have the colors as child!");
-    }
-
-    private void OnValidate()
-    {
-        _waterColors = GetComponentInChildren<WaterColors>();
-        _waterColors.SetFillAmount(_fillAmount, _rotationMultiplier);
-    }
-
-    private void OnDestroy()
-    {
-
     }
 
     public void SetColors(List<Color> color)
     {
         _colors = color;
-        Init();
+        for (int i=0;i< _MAX_NUMBER_OF_COLORS;i++)
+        {
+            _waterColors.SetColor(i, _colors[i]);
+        }
     }
-
-    private void Init()
-    {
-        //Spawn the sprite renderers
-
-    }
-
-    
 }
