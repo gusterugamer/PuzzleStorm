@@ -35,14 +35,14 @@ namespace GusteruStudio.Selection
 
             if (bottle.colors.Count == 0)
             {
-                Debug.Log("BOTTLE: " + bottle.name + "IS EMPTY AND CANNOT BE SELECTED!");
+                Debug.Log("BOTTLE: " + bottle.name + "IS EMPTY AND CANNOT BE SELECTED!", bottle.gameObject);
                 return;
             }
 
             //Records the first selected bottle
             if (_firstSelected == null)
             {
-                Debug.Log("Bottle selected: " + bottle.name);
+                Debug.Log("Bottle selected: " + bottle.name, bottle.gameObject);
                 _firstSelected = bottle;
                 return;
             }
@@ -50,15 +50,15 @@ namespace GusteruStudio.Selection
             //Deselects the selected bottle if it's clicked a second time
             if (_firstSelected == bottle)
             {
-                Debug.Log("Bottle DEselected: " + bottle.name);
-                _firstSelected = null;
+                Debug.Log("Bottle DEselected: " + bottle.name, bottle.gameObject);
+                ClearSelection();
                 return;
             }
 
             //If there is a selected bottle recorded and another bottle selected try to fill the second bottle
             if (_firstSelected != null)
             {
-                //bottle.Fill(_firstSelected);
+                _firstSelected.AttemptToFill(bottle);
                 ClearSelection();
             }
         }
