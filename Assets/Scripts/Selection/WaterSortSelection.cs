@@ -33,7 +33,7 @@ namespace GusteruStudio.Selection
 
             Assert.IsNotNull(bottle, "THE SELECTED PIECES IS NOT A <<BOTTLE>> !");
 
-            if (bottle.colors.Count == 0)
+            if (bottle.colors.Length == 0)
             {
                 Debug.Log("BOTTLE: " + bottle.name + "IS EMPTY AND CANNOT BE SELECTED!", bottle.gameObject);
                 return;

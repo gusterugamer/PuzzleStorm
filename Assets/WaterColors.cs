@@ -32,9 +32,13 @@ public sealed class WaterColors : MonoBehaviour
         _renderer.material.SetColor("_Color" + index, color);
     }
 
-    public void SetFillAmount(float fill, float rotationMultiplier)
+    public void SetFillAmount(float fill)
     {
         _renderer.material.SetFloat("Fill_Amount",fill);
+    }
+
+    public void SetRotationMultiplier(float rotationMultiplier)
+    {
         _renderer.material.SetFloat("Rotation_Multiplier", rotationMultiplier);
     }
 }

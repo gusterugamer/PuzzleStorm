@@ -16,7 +16,7 @@ public sealed class Bottle : MonoBehaviour, PuzzlePiece
 {
     public const int _MAX_NUMBER_OF_COLORS = 4;
     public float _rotationMultiplier;
-    public List<Color> colors => _colors;
+    public Color[] colors => _colors;
 
     private float _fillAmount;
     private float fillAmount
@@ -29,21 +29,12 @@ public sealed class Bottle : MonoBehaviour, PuzzlePiece
         {
             //Update fill amount in shader
             _fillAmount = value;
-            _waterColors.SetFillAmount(_fillAmount, 1f);
+            _waterColors.SetFillAmount(_fillAmount);
         }
     }
     private WaterColors _waterColors;
-    [ShowInInspector] private List<Color> _colors = new List<Color>(_MAX_NUMBER_OF_COLORS);
+    [ShowInInspector] private Color[] _colors = new Color[_MAX_NUMBER_OF_COLORS];
     private int colorsCount = 0; //clear colors = bottle is not filled
-
-
-    private void OnValidate()
-    {
-        if (EditorApplication.isPlaying && Time.time > 1f)
-        {
-            _waterColors.SetFillAmount(_fillAmount, 1f);
-        }
-    }
 
     private void Awake()
     {
@@ -52,11 +43,8 @@ public sealed class Bottle : MonoBehaviour, PuzzlePiece
         Assert.IsNotNull(_waterColors, "BOTTLE: " + name + " doesn't have the colors as child!");
     }
 
-    public void SetColors(List<Color> color)
+    public void SetColors(in Color[] color)
     {
-        // TO DO: CHANGE THE LIST TO ARRRY!!!!
-        _colors = color;
-
         //Color at index 0 is the bottom color
         for (int i = 0; i < _MAX_NUMBER_OF_COLORS; i++)
         {
