@@ -9,7 +9,7 @@ public class TEST : MonoBehaviour
 
     private void Start()
     {
-        _bottle.SetColors(new List<Color> { Color.red, Color.blue, Color.green, Color.red }) ;
+        _bottle.SetColors(new List<Color> { Color.red, Color.blue, Color.cyan, Color.cyan }) ;
         _bottle2.SetColors(new List<Color> { Color.green, Color.cyan, Color.clear, Color.clear }) ;
     }
 }
