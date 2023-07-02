@@ -4,12 +4,16 @@ using UnityEngine;
 
 public class TEST : MonoBehaviour
 {
-    public Bottle _bottle;
-    public Bottle _bottle2;
+    public List<Bottle> _bottles;
+    public WaterSortLevelGenerator _levelGen;
 
     private void Start()
     {
-        _bottle.SetColors(new Color[] { Color.red, Color.blue, Color.cyan, Color.cyan }) ;
-        _bottle2.SetColors(new Color[] { Color.green, Color.cyan, Color.clear, Color.clear }) ;
+        WaterSortLevel level = _levelGen.Generate() as WaterSortLevel;
+        for (int i = 0; i < _bottles.Count; i++)
+        {
+            Bottle bottle = _bottles[i];
+            bottle.SetColors(level.color[i].ToArray());
+        }
     }
 }

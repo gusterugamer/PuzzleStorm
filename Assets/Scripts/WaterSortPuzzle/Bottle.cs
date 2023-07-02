@@ -14,7 +14,7 @@ using UnityEngine.Assertions;
 
 public sealed class Bottle : MonoBehaviour, PuzzlePiece
 {
-    public const int _MAX_NUMBER_OF_COLORS = 4;
+    public const int MAX_NUMBER_OF_COLORS = 4;
     public float _rotationMultiplier;
     public Color[] colors => _colors;
 
@@ -33,7 +33,7 @@ public sealed class Bottle : MonoBehaviour, PuzzlePiece
         }
     }
     private WaterColors _waterColors;
-    [ShowInInspector] private Color[] _colors = new Color[_MAX_NUMBER_OF_COLORS];
+    [ShowInInspector] private Color[] _colors = new Color[MAX_NUMBER_OF_COLORS];
     private int colorsCount = 0; //clear colors = bottle is not filled
 
     private void Awake()
@@ -46,7 +46,7 @@ public sealed class Bottle : MonoBehaviour, PuzzlePiece
     public void SetColors(in Color[] color)
     {
         //Color at index 0 is the bottom color
-        for (int i = 0; i < _MAX_NUMBER_OF_COLORS; i++)
+        for (int i = 0; i < MAX_NUMBER_OF_COLORS; i++)
         {
             if (color[i] != Color.clear)
                 colorsCount++;
@@ -57,7 +57,7 @@ public sealed class Bottle : MonoBehaviour, PuzzlePiece
 
     private void AddColor(Color color)
     {
-        colorsCount = Mathf.Clamp(++colorsCount, 0, _MAX_NUMBER_OF_COLORS);
+        colorsCount = Mathf.Clamp(++colorsCount, 0, MAX_NUMBER_OF_COLORS);
         ChangeColor(colorsCount - 1, color);
         UpdateFillAmount();
     }
@@ -65,7 +65,7 @@ public sealed class Bottle : MonoBehaviour, PuzzlePiece
     private void RemoveColor(int index)
     {
         ChangeColor(index, Color.clear);
-        colorsCount = Mathf.Clamp(--colorsCount, 0, _MAX_NUMBER_OF_COLORS);
+        colorsCount = Mathf.Clamp(--colorsCount, 0, MAX_NUMBER_OF_COLORS);
         UpdateFillAmount();
     }
 
@@ -95,7 +95,7 @@ public sealed class Bottle : MonoBehaviour, PuzzlePiece
         int lastColorVolume = GetLastColorVolume();
         
         //Calculating transferable volume based on number of existing colors in bottle
-        int secondBottle_FreeVolume = _MAX_NUMBER_OF_COLORS - secondBottle.colorsCount;
+        int secondBottle_FreeVolume = MAX_NUMBER_OF_COLORS - secondBottle.colorsCount;
         int transferableVolume = lastColorVolume <= secondBottle_FreeVolume ? lastColorVolume : secondBottle_FreeVolume;
         int lastClearColorIndex = colorsCount - 1;
 
@@ -129,7 +129,7 @@ public sealed class Bottle : MonoBehaviour, PuzzlePiece
 
     private void UpdateFillAmount()
     {
-        fillAmount = (float)colorsCount / _MAX_NUMBER_OF_COLORS;
+        fillAmount = (float)colorsCount / MAX_NUMBER_OF_COLORS;
     }
 
     private Color GetTopColor()

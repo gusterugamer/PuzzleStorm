@@ -9,8 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5256309882548484d951030e03412d9f, type: 3}
-  m_Name: Water Sort Puzzle
+  m_Script: {fileID: 11500000, guid: 6998304446502b34cb36d70fc6738c2b, type: 3}
+  m_Name: WaterSort_Level_Generator
   m_EditorClassIdentifier: 
-  _selectionMode: {fileID: 11400000, guid: 78e292b155c6e0149a3353c5070b5ff6, type: 2}
-  _levelGenerator: {fileID: 11400000, guid: 3874d72c89cab99459b6f73baf854aa0, type: 2}
+  _colors: {fileID: 11400000, guid: d99ec2515ecc4614885b050924606507, type: 2}

@@ -9,6 +9,12 @@ public abstract class Puzzle : ScriptableObject
     [SerializeField]
     protected SelectionMode _selectionMode;
 
+    [BoxGroup("LevelGenerator")]
+    [SerializeField]
+    protected LevelGenerator _levelGenerator;
+
+    public abstract void Init();
+
     [Button]
     public abstract void Set();
 
@@ -19,6 +25,6 @@ public abstract class Puzzle : ScriptableObject
     protected abstract void LoadLevel();
     protected abstract void ClearLevel();
     [Button]
-    protected abstract void GenerateLevel();
+    protected abstract void InstantiateLevel();
 }
 

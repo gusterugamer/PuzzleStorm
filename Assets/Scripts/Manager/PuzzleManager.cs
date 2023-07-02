@@ -1,9 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+
 using UnityEngine;
+using UnityEngine.Assertions;
 
 /// <summary>
-/// This class is responsable to manage and switch the current puzzle that is currently running
+/// This object is responsable to manage and switch the current puzzle that is currently running
 /// </summary>
 
 public abstract class PuzzleManager : ScriptableObject
@@ -12,6 +14,7 @@ public abstract class PuzzleManager : ScriptableObject
 
     public static void Set(Puzzle newPuzzle)
     {
+        Assert.IsNotNull(newPuzzle, "PUZZLE MANAGER TRIED TO A PUZZLE TO A NULL REFERENCE!");
         _currentPuzzle?.Exit();
         _currentPuzzle = newPuzzle;
         _currentPuzzle.Enter();
