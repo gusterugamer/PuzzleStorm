@@ -14,7 +14,7 @@ using Sirenix.OdinInspector;
 public sealed class WaterSortLevelGenerator : LevelGenerator
 {
     [BoxGroup("COLORS")][SerializeField] private WaterSortColors _colors;
-
+    
     public override void Init()
     {
 

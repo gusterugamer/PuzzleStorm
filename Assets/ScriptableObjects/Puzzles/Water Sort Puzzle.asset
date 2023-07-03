@@ -14,3 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _selectionMode: {fileID: 11400000, guid: 78e292b155c6e0149a3353c5070b5ff6, type: 2}
   _levelGenerator: {fileID: 11400000, guid: 3874d72c89cab99459b6f73baf854aa0, type: 2}
+  _bottlePrefab: {fileID: 2847392016128244566, guid: 7fe627671d542c845ae32a34f511985a, type: 3}

@@ -93,7 +93,7 @@ public sealed class Bottle : MonoBehaviour, PuzzlePiece
         //Calculate how much volum can be transfered to the second bottle
 
         int lastColorVolume = GetLastColorVolume();
-        
+
         //Calculating transferable volume based on number of existing colors in bottle
         int secondBottle_FreeVolume = MAX_NUMBER_OF_COLORS - secondBottle.colorsCount;
         int transferableVolume = lastColorVolume <= secondBottle_FreeVolume ? lastColorVolume : secondBottle_FreeVolume;
@@ -137,5 +137,12 @@ public sealed class Bottle : MonoBehaviour, PuzzlePiece
         if (colorsCount == 0)
             return Color.clear;
         return _colors[colorsCount - 1];
+    }
+
+    public Vector2 GetBottleSize()
+    {
+        //BoxSize is multiplied with the bottle size to transform it from local space
+        //to world space
+        return GetComponent<BoxCollider2D>().size * transform.localScale.x;
     }
 }
