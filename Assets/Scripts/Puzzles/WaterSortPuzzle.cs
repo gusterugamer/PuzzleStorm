@@ -15,11 +15,11 @@ public sealed class WaterSortPuzzle : Puzzle
 
     private const float _MIN_ROW_PADDING = 0.1f;
 
+    private const float _SPACE_BETWEEN_ROWS = 1.5f;
+
     private const float _SPACE_BETWEEN_BOTTLES = 0.05f;
 
-    private const float _DEFAULT_ASPECT_RATIO = 0.5625f;
-
-    private float _ratioBetweenAspects = 1f;
+    private int _maxNumOfBottlesPerRow = 0;
 
     private void Awake()
     {
@@ -30,8 +30,7 @@ public sealed class WaterSortPuzzle : Puzzle
     public override void Init()
     {
         _waterSortGenerator.Init();
-        CalculateRatioBetweenAspects();
-        UpdatePrefabScaleForNewAspectRatio();
+        CalculateMaxBottlesNumberPerRow();
     }
 
     public override void Set()
@@ -64,38 +63,28 @@ public sealed class WaterSortPuzzle : Puzzle
     {
         WaterSortLevel waterSortLevel = _waterSortGenerator.Generate() as WaterSortLevel;
 
-        Vector3 cameraPos = Camera.main.transform.position;
+        List<Bottle> createdBottles = new List<Bottle>(waterSortLevel.numColors);
 
-        float viewWidth = GetViewWidth();
+        int numOfRows = Mathf.CeilToInt(waterSortLevel.numColors / _maxNumOfBottlesPerRow);
 
-        float bottleWidth = _bottlePrefab.GetBottleSize().x;
+        //NOTE : Why is space between bottles preserved, but space between rows is not
 
-        Vector3 startPos = new Vector3(bottleWidth * 0.5f + _MIN_ROW_PADDING, cameraPos.y, _bottlePrefab.transform.position.z);
-
-        float length = viewWidth - 2f *_MIN_ROW_PADDING;
-        float step = bottleWidth + _SPACE_BETWEEN_BOTTLES;
-
-        //In loc sa le pozitionez de la inceput la capat , pot sa le instantiez pe toate spatiat apoi doar sa le centrez si padding-ul se va face automat
-
-        int i = 0;
-        for(float currentX = startPos.x; currentX < length; currentX+=step)
+        int currentColorIndex = 0;
+        for (int j = 0; j <= numOfRows; j++)
         {
-            Vector3 currentPos = new Vector3(currentX,cameraPos.y,_bottlePrefab.transform.position.z);
-            Bottle newBottle = Instantiate(_bottlePrefab);
-            newBottle.transform.position = currentPos;
-            newBottle.SetColors(waterSortLevel.color[i].ToArray());
-            i++;
+            List<Bottle> bottlesRow = new List<Bottle>(_maxNumOfBottlesPerRow);
+            for (int i = 0; i < _maxNumOfBottlesPerRow && currentColorIndex < waterSortLevel.numColors; i++)
+            {
+                Bottle newBottle = Instantiate(_bottlePrefab);
+                newBottle.transform.position = new Vector3((_SPACE_BETWEEN_BOTTLES + _bottlePrefab.GetBottleSize().x) * i, j* -_SPACE_BETWEEN_ROWS * DeviceAspectScaler.rationBetweenAspects,0.0f);
+                newBottle.SetColors(waterSortLevel.color[currentColorIndex++].ToArray());
+                createdBottles.Add(newBottle);
+                bottlesRow.Add(newBottle);
+            }
+            CenterRow(bottlesRow);
         }
-    }
 
-    private void CalculateRatioBetweenAspects()
-    {
-        _ratioBetweenAspects = Camera.main.aspect / _DEFAULT_ASPECT_RATIO;
-    }
-
-    private void UpdatePrefabScaleForNewAspectRatio()
-    {
-        _bottlePrefab.transform.localScale *= _ratioBetweenAspects;
+        CenterBottles(createdBottles);
     }
 
     private float GetViewWidth()
@@ -106,5 +95,69 @@ public sealed class WaterSortPuzzle : Puzzle
         float ortoSize = mainCamera.orthographicSize;
 
         return aspectRatio * ortoSize * 2f;
+    }
+
+    private void CalculateMaxBottlesNumberPerRow()
+    {
+        float viewWidth = GetViewWidth();
+        float bottleWidth = _bottlePrefab.GetBottleSize().x;
+
+        //Subtracting the minimum padding from the front and the back of the row
+        float length = viewWidth - 2f* _MIN_ROW_PADDING;
+
+        //Calculating how many bottles would fit without spacing
+        int nBottlesNoSpace = (int)(length / bottleWidth);
+
+        //Calculating the length of all the space between bottles except last one
+        //because the last one has padding after it
+        float rowSpace = (nBottlesNoSpace - 1) * _SPACE_BETWEEN_BOTTLES;
+        //removing that space from the length to account for bottles spacing
+        float effectiveLength = length - rowSpace;
+        
+        _maxNumOfBottlesPerRow = (int)(effectiveLength/bottleWidth);
+    }
+
+    private void CenterBottles(in List<Bottle> bottles)
+    {
+        //Calculateing the center of the array of bottles that was created
+
+        Vector3 centerOfBottles = Vector3.zero;
+
+        foreach (Bottle bottle in bottles)
+        {
+            centerOfBottles += bottle.transform.position;
+        }
+
+        centerOfBottles /= bottles.Count;
+
+        Vector3 offSetToCameraCenter = Camera.main.transform.position - centerOfBottles;
+        offSetToCameraCenter.z = 0f; //we care to offset the bottle only on X and Y
+
+        //Apply offset to each bottle to be centered
+        foreach (Bottle bottle in bottles)
+        {
+            bottle.transform.position += offSetToCameraCenter;
+        }
+    }
+
+    private void CenterRow(in List<Bottle> bottlesRow)
+    {
+        //Center bottles on X
+        float rowCenterX = 0f;
+
+        foreach (Bottle bottle in bottlesRow)
+        {
+            rowCenterX += bottle.transform.position.x;
+        }
+        rowCenterX /= bottlesRow.Count;
+
+        float xOffsetToCameraCenter = Camera.main.transform.position.x - rowCenterX;
+
+        foreach (Bottle bottle in bottlesRow)
+        {
+            Vector3 currentPositon = bottle.transform.position;
+            currentPositon.x += xOffsetToCameraCenter;
+            bottle.transform.position = currentPositon;
+        }
     }
 }

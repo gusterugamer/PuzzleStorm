@@ -323,6 +323,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _puzzle: {fileID: 11400000, guid: 157224c28f50dfc4a8b61c53bd380be7, type: 2}
+  _aspectScaler: {fileID: 11400000, guid: 52bf2991ed3e8854d8864e531600a477, type: 2}
 --- !u!4 &475450491
 Transform:
   m_ObjectHideFlags: 0

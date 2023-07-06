@@ -1,0 +1,16 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50980f5b7ee08c14481b1af1a48c155f, type: 3}
+  m_Name: Device Aspect Scaler
+  m_EditorClassIdentifier: 
+  _prefabs:
+  - {fileID: 8649994505264019003, guid: 7fe627671d542c845ae32a34f511985a, type: 3}

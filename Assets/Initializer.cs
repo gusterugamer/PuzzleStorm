@@ -3,14 +3,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Initializer : MonoBehaviour
+public sealed class Initializer : MonoBehaviour
 {
     [BoxGroup("Puzzle")][SerializeField] private Puzzle _puzzle;
+    [BoxGroup("Scaler")][SerializeField] private DeviceAspectScaler _aspectScaler;
 
     private void Start()
     {
         //The order of these calls matters
         InitCameraPosition();
+        _aspectScaler.UpdatePrefabs();
         _puzzle.Set();
     }
 
