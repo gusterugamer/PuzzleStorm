@@ -4,7 +4,7 @@ using System.Dynamic;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "PuzzleStorm/WordsMaster")]
-public class WordsMaster : ScriptableObject
+public sealed class WordsMaster : ScriptableObject
 {
     //Build a word given positions of start and end letters in words matrix
     public void BuildWord(Letter start, Letter end)

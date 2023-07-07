@@ -13,6 +13,7 @@ public abstract class Puzzle : ScriptableObject
     [SerializeField]
     protected LevelGenerator _levelGenerator;
 
+    [Button]
     public abstract void Init();
 
     [Button]

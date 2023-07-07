@@ -20,11 +20,12 @@ public sealed class WaterSortLevelGenerator : LevelGenerator
 
     }
 
-    [Button]
     public override BaseLevel Generate()
     {
         WaterSortLevel level = new WaterSortLevel();
         level.color = WaterSortSolver.GenerateLevel(_colors.colors.ToList(), 12, 0.5f);
+
+        Debug.Log("WATER SORT PUZZLE GENERATED!");
 
         return level;
     }

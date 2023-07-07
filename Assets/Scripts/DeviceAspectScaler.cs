@@ -21,12 +21,14 @@ public sealed class DeviceAspectScaler : ScriptableObject
 
     public static float rationBetweenAspects = 0.0f;
 
+    public void Init()
+    {
+        CalculateRatioBetweenAspects();
+    }
 
     public void UpdatePrefabs()
     {
-        CalculateRatioBetweenAspects();
-
-        foreach (var prefab in _prefabs) 
+        foreach (var prefab in _prefabs)
         {
             prefab.transform.localScale *= _ratioBetweenAspects;
         }
@@ -38,6 +40,16 @@ public sealed class DeviceAspectScaler : ScriptableObject
         rationBetweenAspects = _ratioBetweenAspects;
     }
 
+
+    public float GetViewWidth()
+    {
+        Camera mainCamera = Camera.main;
+
+        float aspectRatio = mainCamera.aspect;
+        float ortoSize = mainCamera.orthographicSize;
+
+        return aspectRatio * ortoSize * 2f;
+    }
 
     //Reset scale of prefabs affected by the aspect scaler in editor 
 #if UNITY_EDITOR

@@ -9,9 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 50980f5b7ee08c14481b1af1a48c155f, type: 3}
-  m_Name: Device Aspect Scaler
+  m_Script: {fileID: 11500000, guid: 4a609ced2dd57474284d22762592fd61, type: 3}
+  m_Name: Word Search Puzzle
   m_EditorClassIdentifier: 
-  _prefabs:
-  - {fileID: 3405701354627114403, guid: 8cee0a5cdf771894ea7de6fbc0d39e09, type: 3}
-  - {fileID: 8649994505264019003, guid: 7fe627671d542c845ae32a34f511985a, type: 3}
+  _selectionMode: {fileID: 11400000, guid: 0c2ef154a38b9fd41a3a50c1bd1444bc, type: 2}
+  _levelGenerator: {fileID: 11400000, guid: 051bf5cfd527e33448adf2112e75ce3a, type: 2}

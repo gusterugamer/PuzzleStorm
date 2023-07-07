@@ -1209,6 +1209,14 @@ namespace GusteruStudio.Extensions
             return new[] { item };
         }
     }
+
+    public static class CharExtensions
+    {
+        public static bool IsLowerCase(this char ch)
+        {
+            return ch >= 'a' && ch <= 'z';
+        }
+    }
     
     public static class CustomExtensions
     {
