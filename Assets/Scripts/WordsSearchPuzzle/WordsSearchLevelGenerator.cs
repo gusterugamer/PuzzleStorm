@@ -13,7 +13,7 @@ public sealed class WordsSearchLevelGenerator : LevelGenerator
         for(int i=0;i<10;i++)
         {
             level.grid.Add(new List<char>());
-            for (int j =0;j<10;j++)
+            for (int j =0;j<5;j++)
             {
                 int start = 'A';
                 int end = 'Z';

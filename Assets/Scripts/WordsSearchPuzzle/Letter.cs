@@ -8,11 +8,11 @@ using UnityEngine.Assertions;
 [RequireComponent(typeof(BoxCollider2D))]
 public sealed class Letter : MonoBehaviour, PuzzlePiece
 {
-    [ShowInInspector] private char _letter = '0';
+    [ShowInInspector, ReadOnly] private char _letter = '0';
 
     private LetterSymbol _letterSymbol;
 
-    private Vector2Int _gridPosition;
+    [ShowInInspector, ReadOnly]private Vector2Int _gridPosition;
 
     private List<List<Letter>> _grid = null;
 

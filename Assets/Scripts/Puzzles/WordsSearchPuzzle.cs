@@ -48,22 +48,22 @@ public sealed class WordsSearchPuzzle : Puzzle
         Vector2 letterSize = _letterPrefab.GetSize();
         Vector2 boundsSize = _gridBounds.GetSize();
 
-        //Check if we can fit the number of letter at current scale
-        int numLettersOnRow = Mathf.FloorToInt(boundsSize.x / letterSize.x);
-        int numLettersOnColoumn = Mathf.FloorToInt(boundsSize.y / letterSize.y);
+        float scaleFactor;
 
-        float scaleFactor = 1f;
-        if (numLettersOnRow < level.grid[0].Count || numLettersOnColoumn < level.grid.Count)
+        //Calculate a scale factor for the letter prefab
+        // such that one dimesion fits exactly the grid area
+        if (level.grid[0].Count > level.grid.Count)
         {
-            //Since letters are squares they have to have the same scale both on X and Y
-            //therefor we need to see if the coloumn require more space or the row
-
-            if (level.grid[0].Count - numLettersOnRow > level.grid.Count - numLettersOnColoumn)
-                scaleFactor = CalculateLetterScaleFactor(level.grid[0].Count * _letterPrefab.GetSize().x, boundsSize.x);
-            else
-                scaleFactor = CalculateLetterScaleFactor(level.grid.Count * _letterPrefab.GetSize().y, boundsSize.y);
+            float currentScaleOfRow = level.grid[0].Count * letterSize.x;
+            scaleFactor = CalculateLetterScaleFactor(currentScaleOfRow, boundsSize.x); //scale by row
+        }
+        else
+        {
+            float currentScaleOfColoumn = level.grid.Count * letterSize.y;
+            scaleFactor = CalculateLetterScaleFactor(currentScaleOfColoumn, boundsSize.y); //scale by row
         }
 
+        //building the grid 
         for (int i = 0; i < level.grid.Count; i++)
         {
             _currentGrid.Add(new List<Letter>());
@@ -71,14 +71,15 @@ public sealed class WordsSearchPuzzle : Puzzle
             {
                 Letter newLetter = Instantiate(_letterPrefab);
                 newLetter.transform.localScale *= scaleFactor;
-                newLetter.transform.position = new Vector3(newLetter.transform.localScale.x / 2f + _gridBounds.TopLeft.x + i * newLetter.GetSize().x,
-                                                          -newLetter.transform.localScale.y / 2f + _gridBounds.TopLeft.y - j * newLetter.GetSize().y, 0.0f);
+                newLetter.transform.position = new Vector3(j * newLetter.GetSize().x, -i * newLetter.GetSize().y, 0.0f); //The rows have to go one underneath another
                 newLetter.SetSymbol(level.grid[i][j]);
                 newLetter.SetGridPosition(new Vector2Int(i, j));
                 newLetter.SetGrid(_currentGrid);
                 _currentGrid[i].Add(newLetter);
             }
         }
+
+        CenterGrid(_currentGrid);
     }
 
     protected override void LoadLevel()
@@ -89,5 +90,31 @@ public sealed class WordsSearchPuzzle : Puzzle
     private float CalculateLetterScaleFactor(float rowSize, float boundsSize)
     {
         return boundsSize / rowSize;
+    }
+
+    private void CenterGrid(in List<List<Letter>> grid)
+    {
+        Vector3 center = Vector3.zero;
+        for (int i = 0; i < grid.Count; i++)
+        {
+            for (int j = 0; j < grid[i].Count; j++)
+            {
+                center += grid[i][j].transform.position;
+            }
+        }
+        center /= (grid.Count * grid[0].Count);
+
+        Vector3 gridCenter = (_gridBounds.TopLeft + _gridBounds.BottomRight) / 2f;
+
+        Vector3 offset = gridCenter - center;
+        offset.z = 0.0f;
+
+        for (int i = 0; i < grid.Count; i++)
+        {
+            for (int j = 0; j < grid[i].Count; j++)
+            {
+                grid[i][j].transform.position += offset;
+            }
+        }
     }
 }

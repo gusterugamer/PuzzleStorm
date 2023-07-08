@@ -49,12 +49,11 @@ namespace GusteruStudio.Selection
 
             if (_firstLetter != letter && _secondLetter != letter)
             {
-                _secondLetter = ValidateSecondLetter(_firstLetter,letter);
+                _secondLetter = ValidateSecondLetter(_firstLetter, letter);
                 Debug.Log("SELECTED" + "<color=" + Color.green.ToRGBHex() + ">" + " END " + "</color>" + "LETTER << " + _secondLetter.name + " >>", _secondLetter.gameObject);
-                Debug.DrawLine(_firstLetter.transform.position, _secondLetter.transform.position,Color.black, 0.5f);
-            }
 
-            Debug.Log("Letter1: " + _firstLetter.name + "Letter2: " + _secondLetter.name);
+                Debug.DrawLine(_firstLetter.transform.position, _secondLetter.transform.position, Color.black, 0.5f);
+            }
         }
 
         private void ClearLetter(PointerEventData eventData)
@@ -70,14 +69,26 @@ namespace GusteruStudio.Selection
             Vector2Int firstLetterGridPos = firstLetter.GridPosition;
             Vector2Int secondLetterGridPos = secondLetter.GridPosition;
 
+            List<List<Letter>> grid = firstLetter.Grid;
+
             if (firstLetterGridPos.x != secondLetterGridPos.x &&
                 firstLetterGridPos.y != secondLetterGridPos.y)
             {
-                int height = Mathf.Abs(firstLetterGridPos.y - secondLetterGridPos.y);
+                /*To find the closest letter on the diagonal from first letter with respect to 
+                the player's pointer at a moment in time we calculate horizontal and
+                vertical distances between the first letter and the current letter
+                the pointer is hovering and take the minmum of that so we don't go
+                out of bounds if the grid is NOT square.
+                Then we add the offset to first letter position in grid to move on diagonal*/
 
+                int height = Mathf.Abs(firstLetterGridPos.y - secondLetterGridPos.y);
+                int widht = Mathf.Abs(firstLetterGridPos.x - secondLetterGridPos.x);
+
+                int offSetToSecondLetter = Mathf.Min(height, widht);
+
+                Vector2Int diagonalLetter = new Vector2Int(firstLetterGridPos.x + offSetToSecondLetter, firstLetterGridPos.y + offSetToSecondLetter);
                 Vector2Int verticalLetter = new Vector2Int(firstLetterGridPos.x, secondLetterGridPos.y);
                 Vector2Int horizontalLetter = new Vector2Int(secondLetterGridPos.x, firstLetterGridPos.y);
-                Vector2Int diagonalLetter = new Vector2Int(firstLetterGridPos.x + height, firstLetterGridPos.y + height);
 
                 float verticalDistance = Vector2Int.Distance(secondLetterGridPos, verticalLetter);
                 float horizontalDistance = Vector2Int.Distance(secondLetterGridPos, horizontalLetter);
@@ -85,10 +96,11 @@ namespace GusteruStudio.Selection
 
                 float min = Mathf.Min(horizontalDistance, diagonalDistance, verticalDistance);
 
-                if (min == verticalDistance) return firstLetter.Grid[verticalLetter.x][verticalLetter.y];
-                if (min == horizontalDistance) return firstLetter.Grid[horizontalLetter.x][horizontalLetter.y];
-                if (min == diagonalDistance) return firstLetter.Grid[diagonalLetter.x][diagonalLetter.y];
+                if (min == verticalDistance) return grid[verticalLetter.x][verticalLetter.y];
+                if (min == horizontalDistance) return grid[horizontalLetter.x][horizontalLetter.y];
+                if (min == diagonalDistance) return grid[diagonalLetter.x][diagonalLetter.y];
             }
+
             return secondLetter;
         }
     }
