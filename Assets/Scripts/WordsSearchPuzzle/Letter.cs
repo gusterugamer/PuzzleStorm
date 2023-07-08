@@ -12,20 +12,43 @@ public sealed class Letter : MonoBehaviour, PuzzlePiece
 
     private LetterSymbol _letterSymbol;
 
+    private Vector2Int _gridPosition;
+
+    private List<List<Letter>> _grid = null;
+
+    public List<List<Letter>> Grid => _grid;
+
+    public Vector2Int GridPosition => _gridPosition;
+
     private void Awake()
     {
         _letterSymbol = GetComponentInChildren<LetterSymbol>();
         Assert.IsNotNull(_letterSymbol, "LETTER: " + name + " doesn't have a Letter Symbol component as child");
     }
 
-    public void Set(char letter)
+    public void SetSymbol(in char letter)
     {
         _letter = letter;
         _letterSymbol.Set(letter);
     }
 
-    public char Get()
+    public char GetSymbol()
     {
         return _letter;
+    }
+
+    public Vector2 GetSize()
+    {
+        return GetComponent<BoxCollider2D>().size * transform.localScale.x;
+    }
+
+    public void SetGridPosition(in Vector2Int position)
+    {
+        _gridPosition = position;
+    }
+
+    public void SetGrid(in List<List<Letter>> grid) 
+    {
+        _grid = grid;
     }
 }

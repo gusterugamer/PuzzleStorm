@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Device Aspect Scaler
   m_EditorClassIdentifier: 
   _prefabs:
-  - {fileID: 3405701354627114403, guid: 8cee0a5cdf771894ea7de6fbc0d39e09, type: 3}
+  - {fileID: 1778540498628004696, guid: 1ab5a5d259a711c47bd0cd5de7215bcd, type: 3}
   - {fileID: 8649994505264019003, guid: 7fe627671d542c845ae32a34f511985a, type: 3}

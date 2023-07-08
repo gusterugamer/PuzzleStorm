@@ -28,12 +28,17 @@ public sealed class WordsGridBounds : ScriptableObject
         topLeft = new Vector2(viewWidth * _TOP_LEFT_AS_PERCENT_OF_CAMERA_ORTHO_SIZE.x, 
                               viewHeight * _TOP_LEFT_AS_PERCENT_OF_CAMERA_ORTHO_SIZE.y);
         topLeft.x += _GRID_PADDING;
+        topLeft.y -= _GRID_PADDING;
 
         bottomRight = new Vector2(viewWidth * _BOTTOM_RIGHT_AS_PERCENT_OF_CAMERA_ORTHO_SIZE.x,
                                   viewHeight * _BOTTOM_RIGHT_AS_PERCENT_OF_CAMERA_ORTHO_SIZE.y);
 
         bottomRight.x -= _GRID_PADDING;
+        bottomRight.y += _GRID_PADDING;
+    }
 
-        Debug.DrawLine(topLeft, bottomRight, Color.black, 9999f);
+    public Vector2 GetSize()
+    {
+        return new Vector2(bottomRight.x -  topLeft.x, topLeft.y - bottomRight.y);
     }
 }

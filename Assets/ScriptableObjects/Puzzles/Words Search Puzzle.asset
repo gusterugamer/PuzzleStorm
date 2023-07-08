@@ -10,7 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4a609ced2dd57474284d22762592fd61, type: 3}
-  m_Name: Word Search Puzzle
+  m_Name: Words Search Puzzle
   m_EditorClassIdentifier: 
   _selectionMode: {fileID: 11400000, guid: 0c2ef154a38b9fd41a3a50c1bd1444bc, type: 2}
   _levelGenerator: {fileID: 11400000, guid: 051bf5cfd527e33448adf2112e75ce3a, type: 2}
+  _gridBounds: {fileID: 11400000, guid: 06349335cc3cc484c9ca4132a3cadd43, type: 2}
+  _letterPrefab: {fileID: 8914537358937545036, guid: 1ab5a5d259a711c47bd0cd5de7215bcd, type: 3}

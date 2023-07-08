@@ -21,6 +21,9 @@ public sealed class DeviceAspectScaler : ScriptableObject
 
     public static float rationBetweenAspects = 0.0f;
 
+#if UNITY_EDITOR
+    private Dictionary<GameObject,Vector3> _prefabInitialScale = new Dictionary<GameObject, Vector3>(); //Prefab , Scale
+#endif
     public void Init()
     {
         CalculateRatioBetweenAspects();
@@ -30,6 +33,9 @@ public sealed class DeviceAspectScaler : ScriptableObject
     {
         foreach (var prefab in _prefabs)
         {
+#if UNITY_EDITOR
+            _prefabInitialScale.Add(prefab, prefab.transform.localScale);
+#endif
             prefab.transform.localScale *= _ratioBetweenAspects;
         }
     }
@@ -70,7 +76,7 @@ public sealed class DeviceAspectScaler : ScriptableObject
         {
             foreach (var prefab in _prefabs)
             {
-                prefab.transform.localScale = Vector3.one;
+                prefab.transform.localScale = _prefabInitialScale[prefab];
             }
         }
     }

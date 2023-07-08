@@ -23,14 +23,14 @@ namespace GusteruStudio.Selection
         public override void Enter()
         {
             TouchInput.onPieceSelected += ProcessSelection;
-            TouchInput.onPointerUp += ClearLetter;
+            TouchInput.onPointerDown += ClearLetter;
             ClearLetter(null);
         }
 
         public override void Exit()
         {
             TouchInput.onPieceSelected -= ProcessSelection;
-            TouchInput.onPointerUp -= ClearLetter;
+            TouchInput.onPointerDown -= ClearLetter;
         }
 
         protected override void ProcessSelection(PuzzlePiece pp)
@@ -49,17 +49,12 @@ namespace GusteruStudio.Selection
 
             if (_firstLetter != letter && _secondLetter != letter)
             {
-                _secondLetter = letter;
+                _secondLetter = ValidateSecondLetter(_firstLetter,letter);
                 Debug.Log("SELECTED" + "<color=" + Color.green.ToRGBHex() + ">" + " END " + "</color>" + "LETTER << " + _secondLetter.name + " >>", _secondLetter.gameObject);
+                Debug.DrawLine(_firstLetter.transform.position, _secondLetter.transform.position,Color.black, 0.5f);
             }
 
             Debug.Log("Letter1: " + _firstLetter.name + "Letter2: " + _secondLetter.name);
-
-        }
-
-        private void BuildWord()
-        {
-            _wm.BuildWord(_firstLetter, _secondLetter);
         }
 
         private void ClearLetter(PointerEventData eventData)
@@ -68,6 +63,33 @@ namespace GusteruStudio.Selection
             _secondLetter = null;
 
             Debug.Log("LETTER SELECTION IS CLEAR");
+        }
+
+        private Letter ValidateSecondLetter(Letter firstLetter, Letter secondLetter)
+        {
+            Vector2Int firstLetterGridPos = firstLetter.GridPosition;
+            Vector2Int secondLetterGridPos = secondLetter.GridPosition;
+
+            if (firstLetterGridPos.x != secondLetterGridPos.x &&
+                firstLetterGridPos.y != secondLetterGridPos.y)
+            {
+                int height = Mathf.Abs(firstLetterGridPos.y - secondLetterGridPos.y);
+
+                Vector2Int verticalLetter = new Vector2Int(firstLetterGridPos.x, secondLetterGridPos.y);
+                Vector2Int horizontalLetter = new Vector2Int(secondLetterGridPos.x, firstLetterGridPos.y);
+                Vector2Int diagonalLetter = new Vector2Int(firstLetterGridPos.x + height, firstLetterGridPos.y + height);
+
+                float verticalDistance = Vector2Int.Distance(secondLetterGridPos, verticalLetter);
+                float horizontalDistance = Vector2Int.Distance(secondLetterGridPos, horizontalLetter);
+                float diagonalDistance = Vector2Int.Distance(secondLetterGridPos, diagonalLetter);
+
+                float min = Mathf.Min(horizontalDistance, diagonalDistance, verticalDistance);
+
+                if (min == verticalDistance) return firstLetter.Grid[verticalLetter.x][verticalLetter.y];
+                if (min == horizontalDistance) return firstLetter.Grid[horizontalLetter.x][horizontalLetter.y];
+                if (min == diagonalDistance) return firstLetter.Grid[diagonalLetter.x][diagonalLetter.y];
+            }
+            return secondLetter;
         }
     }
 }
