@@ -16,6 +16,7 @@ public sealed class WordsSearchPuzzle : Puzzle
     {
         _wordsSearchGenerator = (WordsSearchLevelGenerator)_levelGenerator;
         _wordsSearchGenerator.Init();
+        _gridBounds.Init();
     }
 
     public override void Enter()

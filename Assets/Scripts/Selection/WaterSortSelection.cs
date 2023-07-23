@@ -18,16 +18,16 @@ namespace GusteruStudio.Selection
 
         public override void Enter()
         {
-            TouchInput.onPieceSelected += ProcessSelection;
+            TouchInput.onPieceSelected += MakeSelection;
             ClearSelection();
         }
 
         public override void Exit()
         {
-            TouchInput.onPieceSelected -= ProcessSelection;
+            TouchInput.onPieceSelected -= MakeSelection;
         }
 
-        protected override void ProcessSelection(PuzzlePiece pp)
+        protected override void MakeSelection(PuzzlePiece pp)
         {
             Bottle bottle = pp as Bottle;
 

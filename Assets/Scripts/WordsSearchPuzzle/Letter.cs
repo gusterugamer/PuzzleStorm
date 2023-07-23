@@ -20,6 +20,8 @@ public sealed class Letter : MonoBehaviour, PuzzlePiece
 
     public Vector2Int GridPosition => _gridPosition;
 
+    public char Character => _letter;
+
     private void Awake()
     {
         _letterSymbol = GetComponentInChildren<LetterSymbol>();
@@ -30,11 +32,6 @@ public sealed class Letter : MonoBehaviour, PuzzlePiece
     {
         _letter = letter;
         _letterSymbol.Set(letter);
-    }
-
-    public char GetSymbol()
-    {
-        return _letter;
     }
 
     public Vector2 GetSize()

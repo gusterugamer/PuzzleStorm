@@ -1,5 +1,6 @@
 using GusteruStudio.Extensions;
 using GusteruStudio.PuzzleStorm;
+using GusteruStudio.ReactiveVariables;
 using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
@@ -11,7 +12,7 @@ namespace GusteruStudio.Selection
     [CreateAssetMenu(menuName = "PuzzleStorm/WordsSortSelection")]
     public sealed class WordsSelectionMode : SelectionMode
     {
-        [BoxGroup("WordsMaster")][SerializeField] private WordsMaster _wm;
+        [BoxGroup("Event")][SerializeField] private LetterSelectionEvent _onLettersSelected;
         private Letter _firstLetter = null;
         private Letter _secondLetter = null;
 
@@ -22,18 +23,20 @@ namespace GusteruStudio.Selection
 
         public override void Enter()
         {
-            TouchInput.onPieceSelected += ProcessSelection;
+            TouchInput.onPieceSelected += MakeSelection;
             TouchInput.onPointerDown += ClearLetter;
-            ClearLetter(null);
+            TouchInput.onPointerUp += ProcessSelection;
+            ClearLetter();
         }
 
         public override void Exit()
         {
-            TouchInput.onPieceSelected -= ProcessSelection;
+            TouchInput.onPieceSelected -= MakeSelection;
             TouchInput.onPointerDown -= ClearLetter;
+            TouchInput.onPointerUp -= ProcessSelection;
         }
 
-        protected override void ProcessSelection(PuzzlePiece pp)
+        protected override void MakeSelection(PuzzlePiece pp)
         {
             Letter letter = pp as Letter;
 
@@ -56,12 +59,23 @@ namespace GusteruStudio.Selection
             }
         }
 
-        private void ClearLetter(PointerEventData eventData)
+        private void ClearLetter(PointerEventData eventData = null)
         {
             _firstLetter = null;
             _secondLetter = null;
 
             Debug.Log("LETTER SELECTION IS CLEAR");
+        }
+
+        private void ProcessSelection(PointerEventData eventData = null)
+        {
+            if (_firstLetter == null || _secondLetter == null) return; //happens when player doesn't drag the pointer and lifts the finger
+
+            LetterSelection letterSelection = new LetterSelection();
+            letterSelection.firstLetter = _firstLetter;
+            letterSelection.secondLetter = _secondLetter;
+
+            _onLettersSelected.Invoke(letterSelection);
         }
 
         private Letter ValidateSecondLetter(Letter firstLetter, Letter secondLetter)
@@ -79,12 +93,17 @@ namespace GusteruStudio.Selection
                 vertical distances between the first letter and the current letter
                 the pointer is hovering and take the minmum of that so we don't go
                 out of bounds if the grid is NOT square.
-                Then we add the offset to first letter position in grid to move on diagonal*/
+                Then we add the offset to first letter position in grid to move on diagonal
+                and get to a valid letter*/
 
                 int height = Mathf.Abs(firstLetterGridPos.y - secondLetterGridPos.y);
-                int widht = Mathf.Abs(firstLetterGridPos.x - secondLetterGridPos.x);
+                int width = Mathf.Abs(firstLetterGridPos.x - secondLetterGridPos.x);
 
-                int offSetToSecondLetter = Mathf.Min(height, widht);
+                //Cache the sign in case the selection on diagonal is in reverse
+                //The axis doesn't matter since is diagonal
+                int sign = firstLetterGridPos.y - secondLetterGridPos.y > 0 ? -1 : 1;
+
+                int offSetToSecondLetter = Mathf.Min(height, width) * sign;
 
                 Vector2Int diagonalLetter = new Vector2Int(firstLetterGridPos.x + offSetToSecondLetter, firstLetterGridPos.y + offSetToSecondLetter);
                 Vector2Int verticalLetter = new Vector2Int(firstLetterGridPos.x, secondLetterGridPos.y);
@@ -103,5 +122,11 @@ namespace GusteruStudio.Selection
 
             return secondLetter;
         }
+    }
+
+    public struct LetterSelection
+    {
+        public Letter firstLetter;
+        public Letter secondLetter;
     }
 }

@@ -13,5 +13,5 @@ public abstract class SelectionMode : ScriptableObject
 
     public abstract void Enter();
 
-    protected abstract void ProcessSelection(PuzzlePiece pp);
+    protected abstract void MakeSelection(PuzzlePiece pp);
 }

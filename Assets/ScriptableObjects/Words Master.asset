@@ -9,8 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 22790b5f12aa0fd49a32c0c72484e823, type: 3}
-  m_Name: Words Selection Mode
+  m_Script: {fileID: 11500000, guid: fd0041a601dcfdc4d8c6f6bb670e0860, type: 3}
+  m_Name: Words Master
   m_EditorClassIdentifier: 
-  _wm: {fileID: 0}
   _onLettersSelected: {fileID: 11400000, guid: eec9720ababeb524dbd18f1cedfa0a72, type: 2}

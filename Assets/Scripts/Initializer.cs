@@ -7,7 +7,6 @@ public sealed class Initializer : MonoBehaviour
 {
     [BoxGroup("Puzzle")][SerializeField] private Puzzle _puzzle;
     [BoxGroup("Scaler")][SerializeField] private DeviceAspectScaler _aspectScaler;
-    [BoxGroup("WordsGridBounds")][SerializeField] private WordsGridBounds _gridBounds;
 
     private void Start()
     {
@@ -16,9 +15,6 @@ public sealed class Initializer : MonoBehaviour
 
         _aspectScaler.Init();
         _aspectScaler.UpdatePrefabs();
-
-        _gridBounds.Init();
-
         _puzzle.Init();
         _puzzle.Set();
     }

@@ -222,7 +222,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _puzzle: {fileID: 11400000, guid: bb0fde9f5872bdb4abd0f20b06d097e0, type: 2}
   _aspectScaler: {fileID: 11400000, guid: 52bf2991ed3e8854d8864e531600a477, type: 2}
-  _gridBounds: {fileID: 11400000, guid: 06349335cc3cc484c9ca4132a3cadd43, type: 2}
 --- !u!4 &475450491
 Transform:
   m_ObjectHideFlags: 0
@@ -375,6 +374,50 @@ MonoBehaviour:
     mipBias: 0
     varianceClampScale: 0.9
     contrastAdaptiveSharpening: 0
+--- !u!1 &646111293
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 646111295}
+  - component: {fileID: 646111294}
+  m_Layer: 0
+  m_Name: ScriptableObjectRef
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &646111294
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 646111293}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13763525a37cc7d4f955bdb86bacaa5b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &646111295
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 646111293}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 4.086585, y: 4.2154546, z: -0.06782545}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &752170632
 GameObject:
   m_ObjectHideFlags: 0
