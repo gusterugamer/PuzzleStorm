@@ -1,13 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using GusteruStudio.Editor;
+using System.IO;
 
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
 
 //Game is created with 1080X1920 in mind so for different aspect ratio puzzle pices might 
-//go off scream or partially rendered therefor we need to rescale the puzzle pieces based
+//go off scream or be partially rendered therefor we need to rescale the puzzle pieces based
 //on the change of the aspect ratio
 
 [CreateAssetMenu(menuName = "PuzzleStorm/Utility/DeviceAspectScaler")]

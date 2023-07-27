@@ -48,14 +48,14 @@ public sealed class WordsMaster : ScriptableObject
         ValidateWord(currentWord);
     }
 
-    private string ReadCharsInGrind(Vector2Int firstLetterPosition, Vector2Int secondLetterPosition, List<List<Letter>> grid)
+    private string ReadCharsInGrind(Vector2Int firstLetterPosition, Vector2Int secondLetterPosition, in List<List<Letter>> grid)
     {
         int rowDistance = Mathf.Abs(firstLetterPosition.x - secondLetterPosition.x) + 1;
         int colDistance = Mathf.Abs(firstLetterPosition.y - secondLetterPosition.y) + 1;
 
         //Calculates the distance in grid between letters
         //the max value is required in case the 2 letters are on the same row or on the same coloumn
-        //for diag the distance is the same
+        //(for diag the distance is the same)
         int totalDistance = Mathf.Max(rowDistance, colDistance);
 
         //result of the calculation is either 0 or 1 depending if the selection is done 
