@@ -13,7 +13,7 @@ namespace GusteruStudio.Editor
 
         static void OnPostprocessAllAssets(string[] importedAssets, string[] deletedAssets, string[] movedAssets, string[] movedFromAssetPaths)
         {
-            Debug.Log("Assets database refreshed");
+        //    Debug.Log("Assets database refreshed");
             onDatabaseRefreshed?.Invoke();
         }
     }

@@ -6,6 +6,7 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "PuzzleStorm/PuzzleGenerators/WordSearchPuzzleGenerator")]
 public sealed class WordsSearchLevelGenerator : LevelGenerator
 {
+    [BoxGroup("WordsDataBase")][SerializeField] private WordsSearchWordsDataBase _wordsDb;
     public override BaseLevel Generate()
     {
         WordsSearchLevel level = new WordsSearchLevel();

@@ -16,7 +16,7 @@ using GusteruStudio.Editor;
 //subfolders) 
 
 [ExecuteInEditMode]
-public class ScriptableObjectRef : MonoBehaviour
+public sealed class ScriptableObjectRef : MonoBehaviour
 {
     [SerializeField] private List<ScriptableObject> _so = new List<ScriptableObject>();
 
